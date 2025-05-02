@@ -1,0 +1,146 @@
+{% extends "app/layout.html" %}
+{% block content %}
+{% if form != None %}
+<h2 class="text-center">Форма обратной связи</h2>
+<div class="form-container">
+    <form method="post" class="feedback-form">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}:</label>
+            {{ form.name }}
+        </div>
+
+        <div class="form-group">
+            <label>Оцените дизайн сайта:</label>
+            {{ form.design_rating }}
+        </div>
+
+        <div class="form-group">
+            <label>Оцените удобство навигации:</label>
+            {{ form.navigation_rating }}
+        </div>
+
+        <div class="form-group">
+            <label>Что вам понравилось на сайте? (можно выбрать несколько):</label>
+            {{ form.liked_features }}
+        </div>
+
+        <div class="form-group">
+            <label>Как часто вы посещаете наш сайт?</label>
+            {{ form.visit_frequency }}
+        </div>
+
+        <div class="form-group">
+            <label>Хотели бы получать новости сайта?</label>
+            {{ form.subscribe_news }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}:</label>
+            {{ form.email }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.suggestions.id_for_label }}">{{ form.suggestions.label }}:</label>
+            {{ form.suggestions }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Отправить отзыв</button>
+    </form>
+</div>
+{% else %}
+<div class="feedback-success">
+    <h2>Спасибо за ваш отзыв!</h2>
+    <div class="feedback-summary">
+        <h3>Ваши ответы:</h3>
+        <ul>
+            <li><strong>Имя:</strong> {{ data.name }}</li>
+            <li><strong>Оценка дизайна:</strong> {{ data.design_rating }}/5</li>
+            <li><strong>Оценка навигации:</strong> {{ data.navigation_rating }}/5</li>
+            <li><strong>Понравившиеся функции:</strong> {{ liked_features_display|join:", " }}</li>
+            <li><strong>Частота посещений:</strong> {{ visit_frequency_display }}</li>
+            <li><strong>Подписка на новости:</strong> {{ data.subscribe_news|yesno:"Да,Нет" }}</li>
+            <li><strong>Email:</strong> {{ data.email }}</li>
+            <li><strong>Предложения по улучшению:</strong> {{ data.suggestions }}</li>
+        </ul>
+    </div>
+</div>
+{% endif %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const submitButton = document.querySelector('button[type="submit"]');
+        submitButton.addEventListener('mouseover', function() {
+            this.style.color = '#ffffff';
+            this.style.backgroundColor = '#28a745';
+        });
+        submitButton.addEventListener('mouseout', function() {
+            this.style.color = '';
+            this.style.backgroundColor = '';
+        });
+    
+        const inputFields = document.querySelectorAll('input[type="text"], input[type="email"], textarea, select');
+        inputFields.forEach(function(field) {
+            field.addEventListener('focus', function() {
+                this.style.backgroundColor = '#f0f8ff'; 
+            });
+            field.addEventListener('blur', function() {
+                this.style.backgroundColor = '';
+            });
+        });
+    });
+</script>
+
+<style>
+.form-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.feedback-form input[type="text"],
+.feedback-form input[type="email"],
+.feedback-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.feedback-form textarea {
+    min-height: 100px;
+}
+
+.feedback-success {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #e8f5e9;
+    border-radius: 8px;
+}
+
+.feedback-summary ul {
+    list-style: none;
+    padding: 0;
+}
+
+.feedback-summary li {
+    margin-bottom: 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+</style>
+{% endblock %}

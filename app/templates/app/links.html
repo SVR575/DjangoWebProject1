@@ -1,0 +1,17 @@
+﻿{% extends "app/layout.html" %}
+{% load static %}
+
+{% block content %}
+<h2>Полезные ресурсы</h2>
+<div class="resource-links">
+    <a href="https://training365.ru/vse-o-cifrax-na-lyzhax-fischer/" target="_blank">
+        <img src="{% static 'app/content/365.png' %}" alt="Logo 1" />
+    </a>
+    <a href="https://serviccer.ru/" target="_blank">
+        <img src="{% static 'app/content/Serviceer.png' %}" alt="Logo 2" />
+    </a>
+    <a href="https://www.skisport.ru" target="_blank">
+        <img src="{% static 'app/content/ski.png' %}" alt="Logo 3" />
+    </a>
+</div>
+{% endblock %}

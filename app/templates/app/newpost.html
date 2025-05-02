@@ -1,0 +1,19 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<h2>Добавление статьи блога</h2>
+
+{% if user.is_superuser %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить статью</button>
+    </form>
+{% else %}
+    <p>У вас нет прав для добавления статей.</p>
+{% endif %}
+
+{% endblock %}
